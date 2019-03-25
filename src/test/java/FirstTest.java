@@ -3,6 +3,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -86,9 +87,9 @@ public class FirstTest {
             }
 
         }
-
-
     }
+
+
 
     public void allowPermission() throws InterruptedException {
         Thread.sleep(2000);
