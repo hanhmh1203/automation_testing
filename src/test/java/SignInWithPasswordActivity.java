@@ -7,14 +7,14 @@ public class SignInWithPasswordActivity extends BaseActivity {
     }
 
     public void inputPassword() {
-        sleep(200);
+        sleep(1000);
+
         if(mDriver.currentActivity().contains(ActivityFactory.SIGN_IN_WITH_PASSWORD)){
             MobileElement mobileElement = mDriver.findElementById("inputPassword");
             if (mobileElement != null) {
                 mobileElement.sendKeys("123456");
                 mDriver.findElementById("progressSendButton").click();
             }
-            sleep(4000);
         }
 
         isRunning = false;
