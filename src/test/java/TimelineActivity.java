@@ -1,6 +1,8 @@
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -16,6 +18,9 @@ public class TimelineActivity extends BaseActivity {
         System.out.println("TimelineActivity " + mDriver.currentActivity());
         sleep(3000);
         if (mDriver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
+            byPassTutorialScreen();
+
+
 //            mDriver.findElement(MobileBy.id("android.support.v7.widget.AppCompatImageView@561375d")).click();
 //            System.out.println("TimelineActivity "+mDriver.findElement(MobileBy.id("tutorial_imv")));
 //            mDriver.findElement(MobileBy.id("tutorial_imv")).click();
@@ -26,14 +31,17 @@ public class TimelineActivity extends BaseActivity {
 //            mDriver.findElement(MobileBy.className("android.widget.ImageView")).click();
 //            mDriver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ImageView").click();
 
-            List<MobileElement> elements =mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/action_bar_root"));
+//            List<MobileElement> elements =mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/action_bar_root"));
 
 //            List<MobileElement> elements = mDriver.findElements(MobileBy.xpath("//android.widget.FrameLayout/*"));
-            for(int i=0;i<elements.size();i++){
-                System.out.println("TimelineActivity "+elements.get(i).getTagName());
-            }
+//            for(int i=0;i<elements.size();i++){
+//                System.out.println("TimelineActivity "+elements.get(i).getTagName());
+//            }
 //            MobileElement mobileElement = mDriver.findElementById("com.gear71.nightly.android:id/root_menu_btn");
-            mDriver.findElement(MobileBy.id("com.gear71.nightly.android:id/root_menu_btn")).click();
+            sleep(3000);
+            System.out.println("TimelineActivity " + mDriver.currentActivity());
+            mDriver.findElementById("com.gear71.nightly.android:id/root_menu_btn").click();
+//            mDriver.findElement(MobileBy.id("com.gear71.nightly.android:id/root_menu_btn")).click();
 //            mobileElement.click();
             // switch to Native context to search inside it
 //            List<MobileElement> images = mDriver.findElementsByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ImageView");
@@ -51,5 +59,11 @@ public class TimelineActivity extends BaseActivity {
             sleep(500);
         }
 
+    }
+
+    private void byPassTutorialScreen() {
+        TouchAction action = new TouchAction(mDriver);
+        new TouchAction(mDriver).tap(PointOption.point(200, 200)).perform();
+        sleep(500);
     }
 }

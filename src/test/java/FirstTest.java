@@ -4,6 +4,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.events.EventFiringWebDriverFactory;
 import io.appium.java_client.events.api.general.ElementEventListener;
 import io.appium.java_client.events.api.general.NavigationEventListener;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
@@ -23,13 +24,37 @@ public class FirstTest {
 
     @BeforeClass
     public void setup() throws MalformedURLException {
+//        DesiredCapabilities caps = new DesiredCapabilities();
+//        caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
+//        caps.setCapability("deviceName", "4200a82fd2dd65e5");
+//        caps.setCapability("udid", "4200a82fd2dd65e5"); //DeviceId from "adb devices" command
+////        caps.setCapability("udid", "4200a82fd2dd65e5"); //DeviceId from "adb devices" command
+////        caps.setCapability("udid", "CB5A25JQ3Z"); //DeviceId from "adb devices" command/sony z3
+//        caps.setCapability("platformName", "Android");
+////        caps.setCapability("platformVersion", "6.0.1");
+//        caps.setCapability("platformVersion", "8.0");
+//        caps.setCapability("skipUnlock", "true");
+//        caps.setCapability("appPackage", "com.gear71.nightly.android");
+//        caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
+////        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
+//        caps.setCapability("noReset", "false");
+//
+//        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+//        wait = new WebDriverWait(driver, 10);
+//        setupEmulator();
+        setupSamSung();
+//        addEvent();
+
+    }
+
+    private void setupSamSung() throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("deviceName", "SamSung");
+        caps.setCapability("deviceName", "4200a82fd2dd65e5");
         caps.setCapability("udid", "4200a82fd2dd65e5"); //DeviceId from "adb devices" command
-//        caps.setCapability("udid", "CB5A25JQ3Z"); //DeviceId from "adb devices" command/sony z3
         caps.setCapability("platformName", "Android");
-//        caps.setCapability("platformVersion", "6.0.1");
         caps.setCapability("platformVersion", "8.0");
+        caps.setCapability("automationName", "UiAutomator2");
+
         caps.setCapability("skipUnlock", "true");
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
@@ -38,11 +63,25 @@ public class FirstTest {
 
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
         wait = new WebDriverWait(driver, 10);
-        addEvent();
-
     }
+
+    private void setupEmulator() throws MalformedURLException {
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("deviceName", "emulator-5554");
+        caps.setCapability("udid", "emulator-5554"); //DeviceId from "adb devices" command
+        caps.setCapability("platformName", "Android");
+        caps.setCapability("skipUnlock", "true");
+        caps.setCapability("appPackage", "com.gear71.nightly.android");
+        caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
+//        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
+        caps.setCapability("noReset", "false");
+
+        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
+        wait = new WebDriverWait(driver, 10);
+    }
+
     @Test
-    public void androidTestSystem(){
+    public void androidTestSystem() {
 //        driver.openNotifications();
     }
 
@@ -66,38 +105,38 @@ public class FirstTest {
     }
 
 
-    public void addEvent(){
+    public void addEvent() {
         driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new NavigationEventListener() {
             public void beforeNavigateTo(String s, WebDriver webDriver) {
-                System.out.println(" beforeNavigateTo"+ "- "+webDriver.getTitle());
+                System.out.println(" beforeNavigateTo" + "- " + webDriver.getTitle());
             }
 
             public void afterNavigateTo(String s, WebDriver webDriver) {
-                System.out.println(" afterNavigateTo"+ "- "+webDriver.getTitle());
+                System.out.println(" afterNavigateTo" + "- " + webDriver.getTitle());
             }
 
             public void beforeNavigateBack(WebDriver webDriver) {
-                System.out.println(" beforeNavigateBack"+ "- "+webDriver.getTitle());
+                System.out.println(" beforeNavigateBack" + "- " + webDriver.getTitle());
             }
 
             public void afterNavigateBack(WebDriver webDriver) {
-                System.out.println(" afterNavigateBack"+ "- "+webDriver.getTitle());
+                System.out.println(" afterNavigateBack" + "- " + webDriver.getTitle());
             }
 
             public void beforeNavigateForward(WebDriver webDriver) {
-                System.out.println(" beforeNavigateForward"+ "- "+webDriver.getTitle());
+                System.out.println(" beforeNavigateForward" + "- " + webDriver.getTitle());
             }
 
             public void afterNavigateForward(WebDriver webDriver) {
-                System.out.println(" afterNavigateForward"+ "- "+webDriver.getTitle());
+                System.out.println(" afterNavigateForward" + "- " + webDriver.getTitle());
             }
 
             public void beforeNavigateRefresh(WebDriver webDriver) {
-                System.out.println(" beforeNavigateRefresh"+ "- "+webDriver.getTitle());
+                System.out.println(" beforeNavigateRefresh" + "- " + webDriver.getTitle());
             }
 
             public void afterNavigateRefresh(WebDriver webDriver) {
-                System.out.println(" afterNavigateRefresh"+ "- "+webDriver.getTitle());
+                System.out.println(" afterNavigateRefresh" + "- " + webDriver.getTitle());
             }
         });
 
@@ -163,20 +202,21 @@ public class FirstTest {
         while (!activity.isRunning) {
             if (!driver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
                 runWithParttern();
-            }else{
+            } else {
                 break;
             }
 
         }
     }
+
     @Test(dependsOnMethods = "startLogin")
-    public void testTimeline(){
+    public void testTimeline() {
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
         BaseActivity activity = factory.getActivity(activityName);
         activity.init(driver, wait);
         System.out.println(" name " + driver.currentActivity());
-        if(activity instanceof TimelineActivity){
+        if (activity instanceof TimelineActivity) {
             activity.run();
         }
 
