@@ -24,26 +24,7 @@ public class FirstTest {
 
     @BeforeClass
     public void setup() throws MalformedURLException {
-//        DesiredCapabilities caps = new DesiredCapabilities();
-//        caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-//        caps.setCapability("deviceName", "4200a82fd2dd65e5");
-//        caps.setCapability("udid", "4200a82fd2dd65e5"); //DeviceId from "adb devices" command
-////        caps.setCapability("udid", "4200a82fd2dd65e5"); //DeviceId from "adb devices" command
-////        caps.setCapability("udid", "CB5A25JQ3Z"); //DeviceId from "adb devices" command/sony z3
-//        caps.setCapability("platformName", "Android");
-////        caps.setCapability("platformVersion", "6.0.1");
-//        caps.setCapability("platformVersion", "8.0");
-//        caps.setCapability("skipUnlock", "true");
-//        caps.setCapability("appPackage", "com.gear71.nightly.android");
-//        caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
-////        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
-//        caps.setCapability("noReset", "false");
-//
-//        driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-//        wait = new WebDriverWait(driver, 10);
-//        setupEmulator();
         setupSamSung();
-//        addEvent();
 
     }
 
@@ -54,11 +35,10 @@ public class FirstTest {
         caps.setCapability("platformName", "Android");
         caps.setCapability("platformVersion", "8.0");
         caps.setCapability("automationName", "UiAutomator2");
-
+//        caps.setCapability("uiautomator2ServerLaunchTimeout", "30000");
         caps.setCapability("skipUnlock", "true");
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
-//        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
         caps.setCapability("noReset", "false");
 
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
@@ -71,6 +51,7 @@ public class FirstTest {
         caps.setCapability("udid", "emulator-5554"); //DeviceId from "adb devices" command
         caps.setCapability("platformName", "Android");
         caps.setCapability("skipUnlock", "true");
+        caps.setCapability("automationName", "UiAutomator2");
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
 //        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
@@ -89,19 +70,6 @@ public class FirstTest {
     public void startLogin() throws InterruptedException {
         Thread.sleep(2000);
         runWithParttern();
-//        allowPermission();
-//        Thread.sleep(2000);
-//        String activity = driver.currentActivity();
-//        if (activity.contains("com.gear71.android.ui.activity.SignInActivity")) {
-//
-//            driver.findElementById("asuPhoneNumber").sendKeys("+84906653665");
-//            driver.findElementById("progressPasswordButton").click();
-//
-//            inputPassword();
-//            closeWelcome();
-//            allowPermission();
-//        }
-
     }
 
 
@@ -188,9 +156,6 @@ public class FirstTest {
         BaseActivity activity = factory.getActivity(activityName);
         if (activity == null) return;
         if (driver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
-//            activity.init(driver, wait);
-//            System.out.println(" name " + driver.currentActivity());
-//            activity.run();
             return;
         }
 
@@ -220,6 +185,18 @@ public class FirstTest {
             activity.run();
         }
 
+
+    }
+    @Test (dependsOnMethods = "testTimeline")
+    public void testAssignment(){
+        ActivityFactory factory = new ActivityFactory();
+        String activityName = driver.currentActivity();
+        BaseActivity activity = factory.getActivity(activityName);
+        activity.init(driver, wait);
+        System.out.println(" testAssignment " + driver.currentActivity());
+        if (activity instanceof AssignmentDetailActivity) {
+            activity.run();
+        }
     }
 
 

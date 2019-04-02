@@ -11,58 +11,53 @@ import java.util.concurrent.TimeUnit;
 
 public class TimelineActivity extends BaseActivity {
     public void run() {
+        System.out.println("TimelineActivity " + mDriver.currentActivity());
+        sleep(2000);
         closeImageTimeline();
+        System.out.println("TimelineActivity " + mDriver.currentActivity());
+        sleep(500);
+        clickOnStatusNew();
+        System.out.println("TimelineActivity " + mDriver.currentActivity());
+        sleep(2000);
     }
 
     public void closeImageTimeline() {
-        System.out.println("TimelineActivity " + mDriver.currentActivity());
-        sleep(3000);
+
+
         if (mDriver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
             byPassTutorialScreen();
-
-
-//            mDriver.findElement(MobileBy.id("android.support.v7.widget.AppCompatImageView@561375d")).click();
-//            System.out.println("TimelineActivity "+mDriver.findElement(MobileBy.id("tutorial_imv")));
-//            mDriver.findElement(MobileBy.id("tutorial_imv")).click();
-//            mDriver.findElementById("tutorial_imv").click();
-//             mDriver.findElement(MobileBy.id("com.gear71.nightly.android:id/tutorial_imv")).click();
-//com.gear71.nightly.android:id/tutorial_imv
-//            mDriver.findElement(MobileBy.className("android.support.v7.widget.AppCompatImageView@561375d")).click();
-//            mDriver.findElement(MobileBy.className("android.widget.ImageView")).click();
-//            mDriver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ImageView").click();
-
-//            List<MobileElement> elements =mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/action_bar_root"));
-
-//            List<MobileElement> elements = mDriver.findElements(MobileBy.xpath("//android.widget.FrameLayout/*"));
-//            for(int i=0;i<elements.size();i++){
-//                System.out.println("TimelineActivity "+elements.get(i).getTagName());
-//            }
-//            MobileElement mobileElement = mDriver.findElementById("com.gear71.nightly.android:id/root_menu_btn");
-            sleep(3000);
-            System.out.println("TimelineActivity " + mDriver.currentActivity());
-            mDriver.findElementById("com.gear71.nightly.android:id/root_menu_btn").click();
-//            mDriver.findElement(MobileBy.id("com.gear71.nightly.android:id/root_menu_btn")).click();
-//            mobileElement.click();
-            // switch to Native context to search inside it
-//            List<MobileElement> images = mDriver.findElementsByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ImageView");
-//             mDriver.findElementByAccessibilityId("com.gear71.nightly.android:id/tutorial_imv").click();
-//            for (MobileElement mobileElement:images){
-//                System.out.println(mobileElement.getId());
-//            }
-
-//            mDriver.findElementByAndroidUIAutomator()
-            //Identify an element using Resource ID (exact match)
-//            MobileElement mobileElement = ((AndroidDriver<MobileElement>)mDriver).findElementByAndroidUIAutomator("new UiSelector().resourceId(\"com.gear71.nightly.android:id/tutorial_imv\")");
-//            System.out.println("Search Box Name - " + mobileElement.getAttribute("name"));
-//            mobileElement.click();
-
-            sleep(500);
         }
+    }
 
+    private void clickOnStatusNew() {
+        List<MobileElement> feeds = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/feed_assignment_status"));
+        for (MobileElement mobileElement : feeds) {
+            System.out.println("status assign " + mobileElement.getText());
+            if (mobileElement.getText().contains("CONFIRMED")) {
+                mobileElement.click();
+                System.out.println("status CONFIRMED click " );
+                break;
+            }
+            if (mobileElement.getText().contains("ON-HOLD")) {
+                mobileElement.click();
+                System.out.println("status ON-HOLD click " );
+                break;
+            }
+            if (mobileElement.getText().contains("NEW")) {
+                mobileElement.click();
+                System.out.println("status NEW click " );
+                break;
+            }
+            if (mobileElement.getText().contains("STARTED")) {
+                mobileElement.click();
+                System.out.println("status STARTED click " );
+                break;
+            }
+
+        }
     }
 
     private void byPassTutorialScreen() {
-        TouchAction action = new TouchAction(mDriver);
         new TouchAction(mDriver).tap(PointOption.point(200, 200)).perform();
         sleep(500);
     }

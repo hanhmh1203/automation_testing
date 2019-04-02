@@ -10,6 +10,7 @@ public class ActivityFactory {
     public static String SIGN_IN_WITH_PASSWORD = "com.gear71.android.ui.activity.SignInWithPasswordActivity";
     public static String LAUNCHER_ACTIVITY = "com.gear71.android.ui.screen.launch.LaunchActivity";
     public static String TIMELINE_ACTIVITY = "com.gear71.android.ui.screen.timeline.TimelineActivity";
+    public static String ASSIGNMENT_DETAIL_ACTIVITY = "com.gear71.android.ui.screen.assignment.AssignmentDetailActivity";
 
     public BaseActivity getActivity(String activity) {
 //        String activity = driver.currentActivity();
@@ -28,6 +29,8 @@ public class ActivityFactory {
             return new TimelineActivity();
         if (activity.contains(INTRODUCTION_ACTIVITY))
             return new IntroductionActivity();
+        if (activity.contains(ASSIGNMENT_DETAIL_ACTIVITY))
+            return new AssignmentDetailActivity();
         return null;
     }
 }
