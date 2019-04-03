@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class FirstTest {
     public AndroidDriver<MobileElement> driver;
@@ -40,9 +41,16 @@ public class FirstTest {
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
         caps.setCapability("noReset", "false");
-
+        caps.setCapability("autoAcceptAlerts", true);
+        caps.setCapability("dontStopAppOnReset", true);
+        caps.setCapability("unlockType", "unlockKey");
+        caps.setCapability("unlockKey", "1111");
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-        wait = new WebDriverWait(driver, 10);
+        driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 120);
+        if (driver.isDeviceLocked()) {
+            driver.unlockDevice();
+        }
     }
 
     private void setupEmulator() throws MalformedURLException {
@@ -187,11 +195,15 @@ public class FirstTest {
 
 
     }
-    @Test (dependsOnMethods = "testTimeline")
-    public void testAssignment(){
+
+    @Test(dependsOnMethods = "testTimeline")
+    public void testAssignment() {
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
         BaseActivity activity = factory.getActivity(activityName);
+        if (activity == null) {
+            System.out.println("activity null testAssignment " + driver.currentActivity());
+        }
         activity.init(driver, wait);
         System.out.println(" testAssignment " + driver.currentActivity());
         if (activity instanceof AssignmentDetailActivity) {

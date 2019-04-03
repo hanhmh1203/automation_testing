@@ -10,7 +10,7 @@ public class PermissionActivity extends BaseActivity {
     }
 
     public void allowPermission() {
-        sleep(1000);
+        sleep(200);
         while (mDriver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
             mDriver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
             break;

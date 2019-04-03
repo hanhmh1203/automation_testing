@@ -4,16 +4,63 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.html5.Location;
+import readfile.LatLonEntity;
+import readfile.ReadFile;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
 public class AssignmentDetailActivity extends BaseActivity {
     private int timeDelay = 1000;
-
+    private int timeDelayLocations =1000*30;
+    private int timeSleepLoop = 200;
+    private int loopCount =3000/timeSleepLoop;
+    List<LatLonEntity>locations;
     public void run() {
         System.out.println("AssignmentDetailActivity " + mDriver.currentActivity());
+//        mDriver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
+
+
+        runWithNali();
+
+    }
+    private void runWithNali(){
+        locations = ReadFile.getListLocation();
+        System.out.println("AssignmentDetailActivity post location start");
+//        mDriver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
+        for(int i=0;i<locations.size();i++)
+        {
+            mDriver.setLocation(new Location(Double.parseDouble(locations.get(i).getLat()),Double.parseDouble(locations.get(i).getLon()),1));
+            try {
+                synchronized (mDriver)
+                {
+                    mDriver.wait(timeDelayLocations);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            sleep(timeDelayLocations);
+            System.out.println("AssignmentDetailActivity post location -"+System.currentTimeMillis()+" -- " + locations.get(i).getLat()+" - "+locations.get(i).getLon() );
+        }
+        System.out.println("AssignmentDetailActivity post location done");
+        try {
+            synchronized (mDriver)
+            {
+                for(int i=0;i<8;i++)
+                {
+                    mDriver.wait(30000);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void runWithAutomobile() {
+
         sleep(3000);
         clickButtonSkip();
         sleep(timeDelay);
@@ -27,10 +74,6 @@ public class AssignmentDetailActivity extends BaseActivity {
 //        sleep(timeDelay);
         atLoading();
         atUnLoading();
-    }
-
-    private void addEvent() {
-
     }
 
     public void atLoading() {
@@ -84,22 +127,7 @@ public class AssignmentDetailActivity extends BaseActivity {
      */
     private void clickButtonSkip() {
         System.out.println("AssignmentDetailActivity SKIP");
-//        boolean isClick = false;
-//        while (!isClick){
-//            List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/assignment_screen_skip"));
-//            for (MobileElement mobileElement : list) {
-//
-//                if (mobileElement.getText().contains("SKIP")) {
-//                    mobileElement.click();
-//                    System.out.println("AssignmentDetailActivity SKIP click");
-//                    isClick=true;
-//                    break;
-//                }
-//
-//            }
-//            sleep(500);
-//        }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/assignment_screen_skip"));
             for (MobileElement mobileElement : list) {
 
@@ -110,21 +138,21 @@ public class AssignmentDetailActivity extends BaseActivity {
                 }
 
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
     }
 
     private void clickConfirm() {
         System.out.println("AssignmentDetailActivity CONFIRM ");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_task_group_confirm"));
             if (list != null && list.size() > 0) {
                 list.get(0).click();
                 System.out.println("AssignmentDetailActivity CONFIRM Click");
                 break;
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
 
@@ -132,7 +160,7 @@ public class AssignmentDetailActivity extends BaseActivity {
 
     private void clickStart() {
         System.out.println("AssignmentDetailActivity clickStart");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_start_assignment"));
             for (MobileElement element : list) {
                 if (element.getText().contains("START ASSIGNMENT")) {
@@ -141,7 +169,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
     }
@@ -149,7 +177,7 @@ public class AssignmentDetailActivity extends BaseActivity {
     private void clickConfirmation() {
         boolean isClick = false;
         System.out.println("AssignmentDetailActivity clickConfirmation");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_positive"));
             for (MobileElement element : list) {
                 if (element.getText().contains("YES")) {
@@ -160,7 +188,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
         if (isClick) clickClosePopupCancel();
 
@@ -168,7 +196,7 @@ public class AssignmentDetailActivity extends BaseActivity {
 
     private void clickClosePopupCancel() {
         System.out.println("AssignmentDetailActivity clickClosePopup");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_neutral"));
             for (MobileElement element : list) {
                 if (element.getText().contains("OK")) {
@@ -177,7 +205,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
 
@@ -194,7 +222,7 @@ public class AssignmentDetailActivity extends BaseActivity {
 
     private void clickArrive() {
         System.out.println("AssignmentDetailActivity clickArrive");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i <loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_arrive"));
             for (MobileElement element : list) {
 
@@ -220,7 +248,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                 }
 
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
     }
@@ -238,7 +266,7 @@ public class AssignmentDetailActivity extends BaseActivity {
     private void confirmArrival() {
         boolean click = false;
         System.out.println("AssignmentDetailActivity clickConfirmation");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_positive"));
             for (MobileElement element : list) {
                 if (element.getText().contains("CONFIRM ARRIVAL")) {
@@ -248,7 +276,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
         if (click == false) {
@@ -258,13 +286,14 @@ public class AssignmentDetailActivity extends BaseActivity {
     }
 
     private void signOnScreen() {
+        //com.gear71.nightly.android:id/asigSignatureCanvas
         new TouchAction(mDriver).longPress(PointOption.point(422, 435))
                 .moveTo(PointOption.point(620, 428)).release().perform();
     }
 
     private void saveSign() {
         System.out.println("AssignmentDetailActivity saveSign");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/asigCompleteButton"));
             for (MobileElement element : list) {
                 System.out.println("AssignmentDetailActivity saveSign" + list.size());
@@ -274,14 +303,14 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
     }
 
     private void arriveAtBase() {
         System.out.println("AssignmentDetailActivity arriveAtBase");
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_arrive_base"));
             for (MobileElement element : list) {
                 if (element.getText().contains("ARRIVE AT BASE")) {
@@ -290,7 +319,7 @@ public class AssignmentDetailActivity extends BaseActivity {
                     break;
                 }
             }
-            sleep(500);
+            sleep(timeSleepLoop);
         }
 
     }
