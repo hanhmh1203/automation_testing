@@ -14,9 +14,12 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import readfile.LatLonEntity;
+import readfile.ReadFile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class FirstTest {
@@ -42,12 +45,13 @@ public class FirstTest {
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
         caps.setCapability("noReset", "false");
         caps.setCapability("autoAcceptAlerts", true);
-        caps.setCapability("dontStopAppOnReset", true);
-        caps.setCapability("unlockType", "unlockKey");
-        caps.setCapability("unlockKey", "1111");
+//        caps.setCapability("dontStopAppOnReset", true);
+//        caps.setCapability("unlockType", "unlockKey");
+//        caps.setCapability("unlockKey", "1111");
+        caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60*100);
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-        driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 120);
+        driver.manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 240);
         if (driver.isDeviceLocked()) {
             driver.unlockDevice();
         }
@@ -76,7 +80,8 @@ public class FirstTest {
 
     @Test()
     public void startLogin() throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(5000);
+        setLocation();
         runWithParttern();
     }
 
@@ -154,6 +159,7 @@ public class FirstTest {
     }
 
     public void runWithParttern() throws InterruptedException {
+
         ActivityFactory factory = new ActivityFactory();
         Thread.sleep(500);
         String activityName = driver.currentActivity();
@@ -184,6 +190,7 @@ public class FirstTest {
 
     @Test(dependsOnMethods = "startLogin")
     public void testTimeline() {
+
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
         BaseActivity activity = factory.getActivity(activityName);
@@ -195,8 +202,19 @@ public class FirstTest {
 
 
     }
+    private void setLocation() {
+        List<LatLonEntity> locations = ReadFile.getListLocation();
+        driver.setLocation(new Location(Double.parseDouble(locations.get(0).getLat()), Double.parseDouble(locations.get(0).getLon()), 1));
+        System.out.println("sign in location post " + locations.get(0).toString());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("sign in location post " + driver.location().getLatitude() + "-" + driver.location().getLongitude());
+    }
 
-    @Test(dependsOnMethods = "testTimeline")
+//    @Test(dependsOnMethods = "testTimeline")
     public void testAssignment() {
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
@@ -212,35 +230,6 @@ public class FirstTest {
     }
 
 
-    public void allowPermission() throws InterruptedException {
-        Thread.sleep(2000);
-        String activity = driver.currentActivity();
-
-        if (activity.contains("com.android.packageinstaller.permission.ui.GrantPermissionsActivity")) {
-            while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
-                driver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
-                break;
-            }
-        }
-
-    }
-
-    public void inputPassword() throws InterruptedException {
-        Thread.sleep(2000);
-        String activity = driver.currentActivity();
-        if (activity.contains("com.gear71.android.ui.activity.SignInWithPasswordActivity")) {
-            driver.findElementById("inputPassword").sendKeys("123456");
-            driver.findElementById("progressSendButton").click();
-        }
-
-
-    }
-
-    public void closeWelcome() throws InterruptedException {
-        Thread.sleep(2000);
-        driver.findElementById("introduction_screen_skip").click();
-
-    }
 
     public void openProfile() throws InterruptedException {
         Thread.sleep(2000);

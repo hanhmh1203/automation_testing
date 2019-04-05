@@ -15,50 +15,69 @@ import static java.lang.Thread.sleep;
 
 public class AssignmentDetailActivity extends BaseActivity {
     private int timeDelay = 1000;
-    private int timeDelayLocations =1000*30;
+    private int timeDelayLocations = 1000 * 60;
     private int timeSleepLoop = 200;
-    private int loopCount =3000/timeSleepLoop;
-    List<LatLonEntity>locations;
+    private int loopCount = 3000 / timeSleepLoop;
+    List<LatLonEntity> locations;
+
     public void run() {
         System.out.println("AssignmentDetailActivity " + mDriver.currentActivity());
+
 //        mDriver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
 
 
         runWithNali();
 
     }
-    private void runWithNali(){
+
+    private void runWithNali() {
         locations = ReadFile.getListLocation();
+        clickButtonSkip();
         System.out.println("AssignmentDetailActivity post location start");
-//        mDriver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
-        for(int i=0;i<locations.size();i++)
-        {
-            mDriver.setLocation(new Location(Double.parseDouble(locations.get(i).getLat()),Double.parseDouble(locations.get(i).getLon()),1));
+//        mDriver.setLocation(new Location(Double.parseDouble(locations.get(0).getLat()), Double.parseDouble(locations.get(0).getLon()), 1));
+//        try {
+//            synchronized (mDriver) {
+//                for (int i = 0; i < 5; i++) {
+//                    mDriver.wait(30000);
+//                }
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        for (int i = 0; i < locations.size(); i++) {
+            LatLonEntity entity = locations.get(i);
+            System.out.println("AssignmentDetailActivity post location -" + entity.toString());
+            mDriver.setLocation(new Location(Double.parseDouble(entity.getLat()), Double.parseDouble(entity.getLon()), 1));
             try {
-                synchronized (mDriver)
-                {
-                    mDriver.wait(timeDelayLocations);
+                synchronized (mDriver) {
+                    if (entity.getTimeDelay() > 0) {
+                        mDriver.wait(entity.getTimeDelay()*1000);
+
+                        System.out.println("AssignmentDetailActivity get location -" + mDriver.location().getLatitude()+" - "+mDriver.location().getLongitude());
+
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 //            sleep(timeDelayLocations);
-            System.out.println("AssignmentDetailActivity post location -"+System.currentTimeMillis()+" -- " + locations.get(i).getLat()+" - "+locations.get(i).getLon() );
+
         }
         System.out.println("AssignmentDetailActivity post location done");
         try {
-            synchronized (mDriver)
-            {
-                for(int i=0;i<8;i++)
-                {
+            synchronized (mDriver) {
+                for (int i = 0; i < 5; i++) {
                     mDriver.wait(30000);
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("AssignmentDetailActivity post location stop");
 
     }
+
     private void runWithAutomobile() {
 
         sleep(3000);
@@ -222,7 +241,7 @@ public class AssignmentDetailActivity extends BaseActivity {
 
     private void clickArrive() {
         System.out.println("AssignmentDetailActivity clickArrive");
-        for (int i = 0; i <loopCount; i++) {
+        for (int i = 0; i < loopCount; i++) {
             List<MobileElement> list = mDriver.findElements(MobileBy.id("com.gear71.nightly.android:id/btn_arrive"));
             for (MobileElement element : list) {
 

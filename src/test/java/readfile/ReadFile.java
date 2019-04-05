@@ -8,12 +8,20 @@ import org.apache.tools.ant.taskdefs.Sync;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 public class ReadFile {
-    public static final String SAMPLE_XLSX_FILE_PATH = "/Users/hanhmh1203/Downloads/excelfile/assign_location.xlsx";
+//    public static final String SAMPLE_XLSX_FILE_PATH = "/Users/hanhmh1203/Downloads/excelfile/assign_location1.xlsx";
+    public static final String PUT_TRAILER_AT_OFFICE_FIRSTS = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_office_firsts.xlsx";
+    public static final String PUT_TRAILER_AT_DISCHARGING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_discharging_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/2_loading_1_discharge_Put_trailer_at_loading_first..xlsx";
+    public static final String SAMPLE_XLSX_FILE_PATH = PUT_TRAILER_AT_OFFICE_FIRSTS;
 
     public static void main(String[] args) {
 //        Workbook workbook = WorkbookFactory.create(new File(SAMPLE_XLSX_FILE_PATH));
@@ -59,15 +67,18 @@ public class ReadFile {
 //        readFile.getListLocation();
         getListLocation();
     }
-    private static List<LatLonEntity>listLocation;
-    public static List<LatLonEntity> getListLocation(){
-        if(listLocation==null||listLocation.size()==0){
+
+    private static List<LatLonEntity> listLocation;
+
+    public static List<LatLonEntity> getListLocation() {
+        if (listLocation == null || listLocation.size() == 0) {
             listLocation = getListLocationFromFile();
         }
         return listLocation;
     }
-    private static List<LatLonEntity> getListLocationFromFile()  {
-        List<LatLonEntity>locations = new ArrayList<LatLonEntity>();
+
+    private static List<LatLonEntity> getListLocationFromFile() {
+        List<LatLonEntity> locations = new ArrayList<LatLonEntity>();
 
         Workbook workbook = null;
         try {
@@ -87,18 +98,40 @@ public class ReadFile {
 
         // 1. You can obtain a rowIterator and columnIterator and iterate over them
         System.out.println("last row number " + sheet.getLastRowNum());
-        for(int i=3;i<sheet.getLastRowNum();i++){
+        for (int i = 3; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             Cell cellLat = row.getCell(5);
             Cell cellLon = row.getCell(6);
+
             String cellValueLat = dataFormatter.formatCellValue(cellLat);
             String cellValueLon = dataFormatter.formatCellValue(cellLon);
-            LatLonEntity entity = new LatLonEntity(cellValueLat,cellValueLon);
+            int trackingTime =0;
+            if(i==sheet.getLastRowNum()){
+                trackingTime=0;
+            }else{
+                Row nextRow = sheet.getRow(i+1);
+                Cell cellTime = nextRow.getCell(7);
+                String strTrackingTime = dataFormatter.formatCellValue(cellTime);
+                trackingTime=getSecondeByString(strTrackingTime);
+            }
+            LatLonEntity entity = new LatLonEntity(cellValueLat, cellValueLon, trackingTime);
+            System.out.println("latlon entity" + entity.toString());
             locations.add(entity);
-
-            System.out.print(cellValueLat + "\t" + cellValueLon);
-            System.out.println();
         }
-        return  locations;
+        return locations;
+    }
+
+    private static int getSecondeByString(String time) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        int seconds = 0;
+        Date reference = null;
+        try {
+            reference = dateFormat.parse("00:00:00");
+            Date date = dateFormat.parse(time);
+            seconds = (int)((date.getTime() - reference.getTime()) / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return seconds;
     }
 }

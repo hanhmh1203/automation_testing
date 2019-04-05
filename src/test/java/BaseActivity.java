@@ -6,6 +6,7 @@ public abstract class BaseActivity implements AppActivity{
      AndroidDriver<MobileElement> mDriver;
      WebDriverWait mWait;
      boolean isRunning =false;
+     Boolean isNali=true;
 
     public void init(AndroidDriver<MobileElement> driver, WebDriverWait wait) {
         mDriver = driver;

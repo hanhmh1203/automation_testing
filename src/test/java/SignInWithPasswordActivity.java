@@ -11,7 +11,7 @@ public class SignInWithPasswordActivity extends BaseActivity {
     public void inputPassword() {
 //        sleep(2000);
 
-        if (mDriver.currentActivity().contains(ActivityFactory.SIGN_IN_WITH_PASSWORD)) {
+//        if (mDriver.currentActivity().contains(ActivityFactory.SIGN_IN_WITH_PASSWORD)) {
             for (int i = 0; i < 10; i++) {
                 List<MobileElement> list = mDriver.findElementsById("inputPassword");
                 if (list != null && list.size() > 0) {
@@ -19,8 +19,8 @@ public class SignInWithPasswordActivity extends BaseActivity {
                     mDriver.findElementById("progressSendButton").click();
                     break;
                 }
-                sleep(300);
-            }
+                sleep(200);
+//            }
 
 //
 //            MobileElement mobileElement = mDriver.findElementById("inputPassword");
