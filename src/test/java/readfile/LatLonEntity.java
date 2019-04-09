@@ -13,8 +13,10 @@ public class LatLonEntity {
     }
 
     public long getTimeDelay() {
-        if(timeDelay==0)return 60*2;//last item
-        return timeDelay+10;
+        if(timeDelay==0)return 60;//last item
+        return timeDelay+5;
+//        if(timeDelay==0)return 30;//last item
+//        return 30;
     }
 
     public void setTimeDelay(int timeDelay) {

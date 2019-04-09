@@ -17,12 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ReadFile {
-//    public static final String SAMPLE_XLSX_FILE_PATH = "/Users/hanhmh1203/Downloads/excelfile/assign_location1.xlsx";
+//    public static final String SAMPLE_XLSX_FILE_PATH1 = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_discharging_first1.xlsx";
     public static final String PUT_TRAILER_AT_OFFICE_FIRSTS = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_office_firsts.xlsx";
     public static final String PUT_TRAILER_AT_DISCHARGING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_discharging_first.xlsx";
-    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/2_loading_1_discharge_Put_trailer_at_loading_first..xlsx";
-    public static final String SAMPLE_XLSX_FILE_PATH = PUT_TRAILER_AT_OFFICE_FIRSTS;
-
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/2_loading_1_discharge_Put_trailer_at_loading_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_OFFICE_FIRST = "/Users/hanhmh1203/Downloads/excelfile/2_loading_1_discharge_Put_trailer_at_office_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST = "/Users/hanhmh1203/Downloads/excelfile/2_loading_1discharge_trailer_at_discharge_first.xlsx";
+    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/1loading_2dischar_trailer_att_loading_first.xlsx";
+    public static final String SAMPLE_XLSX_FILE_PATH = LOADING1_2DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST;
+//2_loading_1discharge_trailer_at_discharge_first
     public static void main(String[] args) {
 //        Workbook workbook = WorkbookFactory.create(new File(SAMPLE_XLSX_FILE_PATH));
 //        // Retrieving the number of sheets in the Workbook

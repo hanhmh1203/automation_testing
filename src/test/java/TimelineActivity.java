@@ -38,7 +38,6 @@ public class TimelineActivity extends BaseActivity {
 
     public void closeImageTimeline() {
 
-
         if (mDriver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
             byPassTutorialScreen();
         }
@@ -101,14 +100,14 @@ public class TimelineActivity extends BaseActivity {
             }
         }
         System.out.println("AssignmentDetailActivity post location done");
-        try {
-            synchronized (mDriver) {
-                mDriver.wait(120 * 1000);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("AssignmentDetailActivity post location stop");
+//        try {
+//            synchronized (mDriver) {
+//                mDriver.wait(20 * 1000);
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("AssignmentDetailActivity post location stop");
 
     }
 
