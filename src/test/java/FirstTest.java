@@ -1,10 +1,12 @@
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.events.EventFiringWebDriverFactory;
 import io.appium.java_client.events.api.general.ElementEventListener;
 import io.appium.java_client.events.api.general.NavigationEventListener;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
@@ -43,22 +45,19 @@ public class FirstTest {
         caps.setCapability("skipUnlock", "true");
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
-        caps.setCapability("noReset", "false");
+        caps.setCapability("noReset", "true");
         caps.setCapability("autoAcceptAlerts", true);
-//        caps.setCapability("dontStopAppOnReset", true);
+        caps.setCapability("dontStopAppOnReset", true);
 //        caps.setCapability("unlockType", "unlockKey");
 //        caps.setCapability("unlockKey", "1111");
-        caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60*100);
+        caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 600*100);
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
-        driver.manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 240);
-        if (driver.isDeviceLocked()) {
-            driver.unlockDevice();
-        }
     }
 
     private void setupEmulator() throws MalformedURLException {
-        DesiredCapabilities caps = new DesiredCapabilities();
+        DesiredCapabilities caps = new DesiredCapabilitises();
         caps.setCapability("deviceName", "emulator-5554");
         caps.setCapability("udid", "emulator-5554"); //DeviceId from "adb devices" command
         caps.setCapability("platformName", "Android");
@@ -80,9 +79,10 @@ public class FirstTest {
 
     @Test()
     public void startLogin() throws InterruptedException {
-        Thread.sleep(5000);
-        setLocation();
-        runWithParttern();
+//        Thread.sleep(5000);
+//        setLocation();
+//        runWithParttern();
+        testLogin();
     }
 
 
@@ -229,6 +229,39 @@ public class FirstTest {
         }
     }
 
+    public void testLogin(){
+        while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
+            driver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
+            break;
+        }
+        List<MobileElement> list = driver.findElements(MobileBy.id("com.gear71.nightly.android:id/asuPhoneNumber"));
+        if (list != null && list.size() > 0) {
+            list.get(0).sendKeys("+84906653665");
+            System.out.println("sendkeys 84906653665");
+            driver.findElementById("progressPasswordButton").click();
+            System.out.println("click type password");
+        }
+
+        List<MobileElement> list1 = driver.findElements(MobileBy.id("com.gear71.nightly.android:id/inputPassword"));
+        if (list1 != null && list1.size() > 0) {
+            list1.get(0).sendKeys("123456");
+            driver.findElementById("progressSendButton").click();
+        }
+        List<MobileElement> list2 = driver.findElementsById("introduction_screen_skip");
+        if(list2!=null &&list2.size()>0)
+        {
+            list2.get(0).click();
+        }
+        while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
+            driver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
+            break;
+        }
+        while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
+            driver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
+            break;
+        }
+        new TouchAction(driver).tap(PointOption.point(200, 200)).perform();
+    }
 
 
     public void openProfile() throws InterruptedException {

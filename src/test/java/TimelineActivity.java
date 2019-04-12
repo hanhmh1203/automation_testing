@@ -11,8 +11,6 @@ import readfile.ReadFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class TimelineActivity extends BaseActivity {
     public void run() {

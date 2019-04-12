@@ -14,7 +14,7 @@ public class LatLonEntity {
 
     public long getTimeDelay() {
         if(timeDelay==0)return 60;//last item
-        return timeDelay+5;
+        return timeDelay+25;
 //        if(timeDelay==0)return 30;//last item
 //        return 30;
     }
