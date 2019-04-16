@@ -22,10 +22,6 @@ public class AssignmentDetailActivity extends BaseActivity {
 
     public void run() {
         System.out.println("AssignmentDetailActivity " + mDriver.currentActivity());
-
-//        mDriver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
-
-
         runWithNali();
 
     }

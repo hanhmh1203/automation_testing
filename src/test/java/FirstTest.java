@@ -28,6 +28,7 @@ public class FirstTest {
     public AndroidDriver<MobileElement> driver;
     public WebDriverWait wait;
 
+
     @BeforeClass
     public void setup() throws MalformedURLException {
         setupSamSung();
@@ -50,14 +51,14 @@ public class FirstTest {
         caps.setCapability("dontStopAppOnReset", true);
 //        caps.setCapability("unlockType", "unlockKey");
 //        caps.setCapability("unlockKey", "1111");
-        caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 600*100);
+        caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 600 * 100);
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 240);
     }
 
     private void setupEmulator() throws MalformedURLException {
-        DesiredCapabilities caps = new DesiredCapabilitises();
+        DesiredCapabilities caps = new DesiredCapabilities();
         caps.setCapability("deviceName", "emulator-5554");
         caps.setCapability("udid", "emulator-5554"); //DeviceId from "adb devices" command
         caps.setCapability("platformName", "Android");
@@ -65,24 +66,18 @@ public class FirstTest {
         caps.setCapability("automationName", "UiAutomator2");
         caps.setCapability("appPackage", "com.gear71.nightly.android");
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
-//        caps.setCapability("appActivity","com.gear71.android.ui.activity.SignInActivity");
         caps.setCapability("noReset", "false");
 
         driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
         wait = new WebDriverWait(driver, 10);
     }
 
-    @Test
-    public void androidTestSystem() {
-//        driver.openNotifications();
-    }
-
     @Test()
-    public void startLogin() throws InterruptedException {
-//        Thread.sleep(5000);
-//        setLocation();
-//        runWithParttern();
-        testLogin();
+    public void startLogin() {
+        if (BaseActivity.isNali) {
+            setLocation();
+        }
+        login();
     }
 
 
@@ -90,103 +85,48 @@ public class FirstTest {
         driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new NavigationEventListener() {
             public void beforeNavigateTo(String s, WebDriver webDriver) {
                 System.out.println(" beforeNavigateTo" + "- " + webDriver.getTitle());
+                System.out.println(" beforeNavigateTo" + "- " + driver.currentActivity());
+
             }
 
             public void afterNavigateTo(String s, WebDriver webDriver) {
                 System.out.println(" afterNavigateTo" + "- " + webDriver.getTitle());
+                System.out.println(" afterNavigateTo" + "- " + driver.currentActivity());
             }
 
             public void beforeNavigateBack(WebDriver webDriver) {
                 System.out.println(" beforeNavigateBack" + "- " + webDriver.getTitle());
+                System.out.println(" beforeNavigateBack" + "- " + driver.currentActivity());
             }
 
             public void afterNavigateBack(WebDriver webDriver) {
                 System.out.println(" afterNavigateBack" + "- " + webDriver.getTitle());
+                System.out.println(" afterNavigateBack" + "- " + driver.currentActivity());
             }
 
             public void beforeNavigateForward(WebDriver webDriver) {
                 System.out.println(" beforeNavigateForward" + "- " + webDriver.getTitle());
+                System.out.println(" beforeNavigateForward" + "- " + driver.currentActivity());
             }
 
             public void afterNavigateForward(WebDriver webDriver) {
                 System.out.println(" afterNavigateForward" + "- " + webDriver.getTitle());
+                System.out.println(" afterNavigateForward" + "- " + driver.currentActivity());
             }
 
             public void beforeNavigateRefresh(WebDriver webDriver) {
                 System.out.println(" beforeNavigateRefresh" + "- " + webDriver.getTitle());
+                System.out.println(" beforeNavigateRefresh" + "- " + driver.currentActivity());
             }
 
             public void afterNavigateRefresh(WebDriver webDriver) {
                 System.out.println(" afterNavigateRefresh" + "- " + webDriver.getTitle());
+                System.out.println(" afterNavigateRefresh" + "- " + driver.currentActivity());
             }
         });
 
-//                driver = EventFiringWebDriverFactory.getEventFiringWebDriver(driver, new ElementEventListener() {
-//                    public void beforeClickOn(WebElement webElement, WebDriver webDriver) {
-//                        System.out.println(" beforeClickOn "+ "- "+webElement.getText());
-//
-//                    }
-//
-//                    public void afterClickOn(WebElement webElement, WebDriver webDriver) {
-//                        System.out.println(" afterClickOn"+ "- "+webElement.getText());
-//                    }
-//
-//                    public void beforeChangeValueOf(WebElement webElement, WebDriver webDriver) {
-//                        System.out.println(" beforeChangeValueOf"+ "- "+webElement.getText());
-//                    }
-//
-//                    public void beforeChangeValueOf(WebElement webElement, WebDriver webDriver, CharSequence[] charSequences) {
-//                        System.out.println(" beforeChangeValueOf"+ "- "+webElement.getText() );
-//                    }
-//
-//                    public void afterChangeValueOf(WebElement webElement, WebDriver webDriver) {
-//                        System.out.println(" afterChangeValueOf"+ "- ");
-//                    }
-//
-//                    public void afterChangeValueOf(WebElement webElement, WebDriver webDriver, CharSequence[] charSequences) {
-//                        System.out.println(" afterChangeValueOf"+ "- "+webElement.getText());
-//                    }
-//
-//                    public void beforeGetText(WebElement webElement, WebDriver webDriver) {
-//                        System.out.println(" beforeGetText"+ "- "+webElement.getText());
-//                    }
-//
-//                    public void afterGetText(WebElement webElement, WebDriver webDriver, String s) {
-//                        System.out.println(" afterGetText"+ "- "+webElement.getText());
-//                    }
-//                }
-//        );
     }
 
-    public void runWithParttern() throws InterruptedException {
-
-        ActivityFactory factory = new ActivityFactory();
-        Thread.sleep(500);
-        String activityName = driver.currentActivity();
-        if (activityName.contains(ActivityFactory.LAUNCHER_ACTIVITY)) {
-            Thread.sleep(2000);
-        }
-
-        BaseActivity activity = factory.getActivity(activityName);
-        if (activity == null) return;
-        if (driver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
-            return;
-        }
-
-        System.out.println(" name " + driver.currentActivity());
-        activity.init(driver, wait);
-        activity.run();
-        Thread.sleep(2000);
-
-        while (!activity.isRunning) {
-            if (!driver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
-                runWithParttern();
-            } else {
-                break;
-            }
-
-        }
-    }
 
     @Test(dependsOnMethods = "startLogin")
     public void testTimeline() {
@@ -202,19 +142,20 @@ public class FirstTest {
 
 
     }
+
     private void setLocation() {
         List<LatLonEntity> locations = ReadFile.getListLocation();
         driver.setLocation(new Location(Double.parseDouble(locations.get(0).getLat()), Double.parseDouble(locations.get(0).getLon()), 1));
-        System.out.println("sign in location post " + locations.get(0).toString());
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("sign in location post " + driver.location().getLatitude() + "-" + driver.location().getLongitude());
+//        System.out.println("sign in location post " + locations.get(0).toString());
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("sign in location post " + driver.location().getLatitude() + "-" + driver.location().getLongitude());
     }
 
-//    @Test(dependsOnMethods = "testTimeline")
+    //    @Test(dependsOnMethods = "testTimeline")
     public void testAssignment() {
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
@@ -229,7 +170,7 @@ public class FirstTest {
         }
     }
 
-    public void testLogin(){
+    public void login() {
         while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
             driver.findElement(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).click();
             break;
@@ -248,8 +189,7 @@ public class FirstTest {
             driver.findElementById("progressSendButton").click();
         }
         List<MobileElement> list2 = driver.findElementsById("introduction_screen_skip");
-        if(list2!=null &&list2.size()>0)
-        {
+        if (list2 != null && list2.size() > 0) {
             list2.get(0).click();
         }
         while (driver.findElements(MobileBy.xpath("//*[@class='android.widget.Button'][2]")).size() > 0) {
@@ -280,9 +220,4 @@ public class FirstTest {
         openProfile();
         logOut();
     }
-
-//    @Test
-//    public  void test1(){
-//
-//    }
 }

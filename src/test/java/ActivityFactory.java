@@ -15,20 +15,12 @@ public class ActivityFactory {
     public BaseActivity getActivity(String activity) {
 //        String activity = driver.currentActivity();
         if (activity.contains(LAUNCHER_ACTIVITY)) {
-
         }
         if (activity.contains(PERMISSION)) {
-            return new PermissionActivity();
         }
-        if (activity.contains(SIGN_IN_ACTIVITY)) {
-            return new SigninActivity();
-        }
-        if (activity.contains(SIGN_IN_WITH_PASSWORD))
-            return new SignInWithPasswordActivity();
         if (activity.contains(TIMELINE_ACTIVITY))
             return new TimelineActivity();
         if (activity.contains(INTRODUCTION_ACTIVITY))
-            return new IntroductionActivity();
         if (activity.contains(ASSIGNMENT_DETAIL_ACTIVITY))
             return new AssignmentDetailActivity();
         return null;

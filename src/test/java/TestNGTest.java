@@ -61,7 +61,6 @@ public class TestNGTest {
         caps.setCapability("appActivity", "com.gear71.android.ui.screen.launch.LaunchActivity");
             driver = new AndroidDriver<MobileElement>(url, caps);
             driver.closeApp();
-//            wait = new WebDriverWait(driver, 10);
 
     }
     public AndroidDriver<MobileElement> driver;

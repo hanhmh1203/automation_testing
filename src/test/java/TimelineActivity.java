@@ -17,27 +17,13 @@ public class TimelineActivity extends BaseActivity {
 
         if (isNali) {
             runWithNali();
-            System.out.println("TimelineActivity " + mDriver.currentActivity());
-            closeImageTimeline();
-//            logoutApp();
         } else {
             sleep(2000);
             System.out.println("TimelineActivity " + mDriver.currentActivity());
-            sleep(2000);
-            closeImageTimeline();
             System.out.println("TimelineActivity " + mDriver.currentActivity());
             sleep(500);
             clickOnStatusNew();
             System.out.println("TimelineActivity " + mDriver.currentActivity());
-            sleep(2000);
-
-        }
-    }
-
-    public void closeImageTimeline() {
-
-        if (mDriver.currentActivity().contains(ActivityFactory.TIMELINE_ACTIVITY)) {
-            byPassTutorialScreen();
         }
     }
 
@@ -69,10 +55,6 @@ public class TimelineActivity extends BaseActivity {
         }
     }
 
-    private void byPassTutorialScreen() {
-        new TouchAction(mDriver).tap(PointOption.point(200, 200)).perform();
-        sleep(500);
-    }
 
     List<LatLonEntity> locations;
 
@@ -98,15 +80,6 @@ public class TimelineActivity extends BaseActivity {
             }
         }
         System.out.println("AssignmentDetailActivity post location done");
-//        try {
-//            synchronized (mDriver) {
-//                mDriver.wait(20 * 1000);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("AssignmentDetailActivity post location stop");
-
     }
 
     private void showTimeCurrent() {
