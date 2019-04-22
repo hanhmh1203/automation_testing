@@ -4,13 +4,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BaseActivity implements AppActivity{
      AndroidDriver<MobileElement> mDriver;
-     WebDriverWait mWait;
      boolean isRunning =false;
     public static Boolean isNali = true;
 
-    public void init(AndroidDriver<MobileElement> driver, WebDriverWait wait) {
+    public void init(AndroidDriver<MobileElement> driver) {
         mDriver = driver;
-        mWait = wait;
     }
     public void sleep(long timeMilisecond){
 

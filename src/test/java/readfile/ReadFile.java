@@ -3,6 +3,7 @@ package readfile;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.tools.ant.taskdefs.Patch;
 import org.apache.tools.ant.taskdefs.Sync;
 
 import java.io.File;
@@ -17,15 +18,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ReadFile {
-//        public static final String SAMPLE_XLSX_FILE_PATH1 = "/Users/hanhmh1203/Downloads/excelfile_clone/2loading_1dis_dis_first.xlsx";
-    public static final String PUT_TRAILER_AT_OFFICE_FIRSTS = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_office_firsts.xlsx";
-    public static final String PUT_TRAILER_AT_DISCHARGING_FIRST = "/Users/hanhmh1203/Downloads/excelfile/put_trailer_at_discharging_first.xlsx";
-    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/2_loading_1_discharge_Put_trailer_at_loading_first.xlsx";
-    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_OFFICE_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/2_loading_1_discharge_Put_trailer_at_office_first.xlsx";
-    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/2_loading_1discharge_trailer_at_discharge_first.xlsx";
-    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/1loading_2dischar_trailer_att_loading_first.xlsx";
-    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_OFFICE_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/1loading_2dischar_trailer_att_office_first.xlsx";
-    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST = "/Users/hanhmh1203/Downloads/excelfile_clone/1loading_2dischar_trailer_att_discharge_first.xlsx";
+    //        public static final String SAMPLE_XLSX_FILE_PATH1 = "/Users/hanhmh1203/Downloads/excelfile_clone/2loading_1dis_dis_first.xlsx";
+    private static final String PATH = "/Users/hanhmh1203/Downloads/excelfile_clone/";
+    public static final String PUT_TRAILER_AT_OFFICE_FIRSTS = PATH + "put_trailer_at_office_firsts.xlsx";
+    public static final String PUT_TRAILER_AT_DISCHARGING_FIRST = PATH + "put_trailer_at_discharging_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = PATH + "2_loading_1_discharge_Put_trailer_at_loading_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_OFFICE_FIRST = PATH + "2_loading_1_discharge_Put_trailer_at_office_first.xlsx";
+    public static final String LOADING2_1DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST = PATH + "2_loading_1discharge_trailer_at_discharge_first.xlsx";
+    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_LOADING_FIRST = PATH + "1loading_2dischar_trailer_att_loading_first.xlsx";
+    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_OFFICE_FIRST = PATH + "1loading_2dischar_trailer_att_office_first.xlsx";
+    public static final String LOADING1_2DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST = PATH + "1loading_2dischar_trailer_att_discharge_first.xlsx";
     //
     public static final String SAMPLE_XLSX_FILE_PATH = LOADING1_2DISCHARGE_PUT_TRAILER_AT_DISCHARGE_FIRST;
 

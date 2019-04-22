@@ -30,16 +30,6 @@ public class AssignmentDetailActivity extends BaseActivity {
         locations = ReadFile.getListLocation();
         clickButtonSkip();
         System.out.println("AssignmentDetailActivity post location start");
-//        mDriver.setLocation(new Location(Double.parseDouble(locations.get(0).getLat()), Double.parseDouble(locations.get(0).getLon()), 1));
-//        try {
-//            synchronized (mDriver) {
-//                for (int i = 0; i < 5; i++) {
-//                    mDriver.wait(30000);
-//                }
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         for (int i = 0; i < locations.size(); i++) {
             LatLonEntity entity = locations.get(i);

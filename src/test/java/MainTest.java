@@ -26,13 +26,13 @@ import java.util.concurrent.TimeUnit;
 
 public class MainTest {
     public AndroidDriver<MobileElement> driver;
-    public WebDriverWait wait;
+//    public WebDriverWait wait;
 
     private void setupDriver(DesiredCapabilities caps) {
         try {
             driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"), caps);
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-            wait = new WebDriverWait(driver, 240);
+//            wait = new WebDriverWait(driver, 240);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -113,7 +113,7 @@ public class MainTest {
         ActivityFactory factory = new ActivityFactory();
         String activityName = driver.currentActivity();
         BaseActivity activity = factory.getActivity(activityName);
-        activity.init(driver, wait);
+//        activity.init(driver, wait);
         System.out.println(" name " + driver.currentActivity());
         if (activity instanceof TimelineActivity) {
             activity.run();
@@ -135,7 +135,7 @@ public class MainTest {
         if (activity == null) {
             System.out.println("activity null testAssignment " + driver.currentActivity());
         }
-        activity.init(driver, wait);
+//        activity.init(driver, wait);
         System.out.println(" testAssignment " + driver.currentActivity());
         if (activity instanceof AssignmentDetailActivity) {
             activity.run();
@@ -150,8 +150,8 @@ public class MainTest {
         driver.hideKeyboard();
         List<MobileElement> list = driver.findElements(MobileBy.id("com.gear71.nightly.android:id/asuPhoneNumber"));
         if (list != null && list.size() > 0) {
-            list.get(0).sendKeys("0906653665");
-            System.out.println("sendkeys 0906653665");
+            list.get(0).sendKeys("906653665");
+            System.out.println("sendkeys 906653665");
             driver.findElementById("progressPasswordButton").click();
             System.out.println("click type password");
         }
@@ -175,15 +175,10 @@ public class MainTest {
         }
         new TouchAction(driver).tap(PointOption.point(200, 200)).perform();
 
-        logOut();
     }
 
 
-    public void openProfile() throws InterruptedException {
-
-        driver.findElementById("fragment_menu_profile_btn").click();
-    }
-
+    @Test(dependsOnMethods = "startLogin")
     public void logOut()  {
 
         List<MobileElement> list = driver.findElements(MobileBy.id("com.gear71.nightly.android:id/root_menu_btn"));
@@ -202,10 +197,5 @@ public class MainTest {
         if (list3 != null && list3.size() > 0) {
             list3.get(0).click();
         }
-    }
-
-    public void logoutApp() throws InterruptedException {
-        openProfile();
-        logOut();
     }
 }
